@@ -9,30 +9,31 @@ function gameMenu()
     $level = gets.chomp
   break if !(($level[0]).ord > 51 || ($level[0]).ord < 49 || $level === '')
   $level = $level.to_i
-endloop do 
-puts "Select level:"
-$level = gets.chomp
-break if !(($level[0]).ord > 51 || ($level[0]).ord < 49 || $level === '')
-$level = $level.to_i
-end
+  end
+  loop do 
+    puts "Select level:"
+    $level = gets.chomp
+  break if !(($level[0]).ord > 51 || ($level[0]).ord < 49 || $level === '')
+  end
+  $level = $level.to_i
 
-case ($level)
-  when 1
-    $words = ["BANANA", "ORANGE", "PINEAPPLE", "MANGO", "GRAPE", "APPLE", "MELON"]
-    $ctr = 11
-  when 2
-    $words = ["CACOPHONY", "RAGAMUFFIN", "GOBBLEDYGOOK", "GIBBERISH", "POPPYCOCK", "CURMUDGEON", "WOEBEGONE"]
-    $ctr = 8
-  when 3
-    $words = ["ANTIDISESTABLISHMENTARIANISM", "INCOMPREHENSIBILITIES", "EUOUAE", "HONORIFICABILITUDINITATIBUS", "SESQUIPEDALIANISM", "UNCOPYRIGHTABLE", "UNIMAGINATIVELY"]
-    $ctr = 6
-  else
-    $words = ["BANANA", "ORANGE", "PINEAPPLE", "MANGO", "GRAPE", "APPLE", "MELON"]
-
-setting = []
-setting.push(ctr)
-setting.push(words)
-return setting
+  case ($level)
+    when 1
+      $words = ["BANANA", "ORANGE", "PINEAPPLE", "MANGO", "GRAPE", "APPLE", "MELON"]
+      $ctr = 11
+    when 2
+      $words = ["CACOPHONY", "RAGAMUFFIN", "GOBBLEDYGOOK", "GIBBERISH", "POPPYCOCK", "CURMUDGEON", "WOEBEGONE"]
+      $ctr = 8
+    when 3
+      $words = ["ANTIDISESTABLISHMENTARIANISM", "INCOMPREHENSIBILITIES", "EUOUAE", "HONORIFICABILITUDINITATIBUS", "SESQUIPEDALIANISM", "UNCOPYRIGHTABLE", "UNIMAGINATIVELY"]
+      $ctr = 6
+    else
+      $words = ["BANANA", "ORANGE", "PINEAPPLE", "MANGO", "GRAPE", "APPLE", "MELON"]
+    end
+  setting = []
+  setting.push(ctr)
+  setting.push(words)
+  return setting
 end
 
 =begin
