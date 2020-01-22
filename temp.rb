@@ -1,22 +1,14 @@
 $words, $level, $ctr = [], 0, 0
-function gameMenu()
-  puts "[1] Easy"
+def gameMenu()
+  puts " [1] Easy"
   puts " [2] Medium"
   puts " [3] Hard"
-
-  loop do 
-    puts "Select level:"
-    $level = gets.chomp
-  break if !(($level[0]).ord > 51 || ($level[0]).ord < 49 || $level === '')
-  $level = $level.to_i
-  end
   loop do 
     puts "Select level:"
     $level = gets.chomp
   break if !(($level[0]).ord > 51 || ($level[0]).ord < 49 || $level === '')
   end
   $level = $level.to_i
-
   case ($level)
     when 1
       $words = ["BANANA", "ORANGE", "PINEAPPLE", "MANGO", "GRAPE", "APPLE", "MELON"]
@@ -30,10 +22,10 @@ function gameMenu()
     else
       $words = ["BANANA", "ORANGE", "PINEAPPLE", "MANGO", "GRAPE", "APPLE", "MELON"]
     end
-  setting = []
-  setting.push(ctr)
-  setting.push(words)
-  return setting
+  $setting = []
+  $setting.push($ctr)
+  $setting.push($words)
+  return $setting
 end
 
 =begin
@@ -41,84 +33,91 @@ https://www.grammarly.com/blog/14-of-the-longest-words-in-english/
 https://www.fluentu.com/blog/english/weird-strange-english-words/
 =end
 
-fun = true
-setting = []
-str = ''
-arr = []
-rndArr = []
-rnd = 0
+$fun = true
+$setting = []
+$str = ''
+$arr = []
+$rndArr = []
+$rnd = 0
 
 loop do
   puts "===================================="
   puts "*****         HANGMAN          *****"
   puts "===================================="
   puts "((Coded by ~o0O([AtlasLion7])O0o~ ))"
-setting = gameMenu()
-$words = setting[1]
-$ctr = setting[0]
+  $setting = gameMenu()
+  $words = $setting[1]
+  $ctr = $setting[0]
 
   loop do
-    rnd = Math.floor(Math.random() * 7)
-  break if !(rndArr.includes(rnd))
-  rndArr.push(rnd)
-  str = $words[rnd]
-  arr = str.split('')
-  let disp = []
-  let holder = []
-  disp[0] = '[' + arr[0] + ']'
-  holder[0] = ''
-  arr[0] = '[' + arr[0] + ']'
-  let i = 0
-  for i in 1..arr.length-1 do
-    holder[i] = arr[i]
-    arr[i] = '[' + arr[i] + ']'
-    disp[i] = '[*]'
+    $rnd = (rand(0..6)).floor()
+  break if !($rndArr.include?($rnd))
   end
-  disp.push('[' + arr[arr.length-1] + ']')
+  $rndArr.push($rnd)
+  $str = $words[$rnd]
+  #puts $str
+  $arr = $str.split('')
+  #puts $arr
+  disp = []
+  holder = []
+  disp[0] = '[' + $arr[0] + ']'
+  holder[0] = ''
+  $arr[0] = '[' + $arr[0] + ']'
+  i = 1
+  while i < $arr.length-1
+    holder[i] = $arr[i]
+    $arr[i] = `[ #{$arr[i]} ]`
+    disp[i] = "[*]"
+    i += 1
+  end
+  #disp.push($arr[$arr.length-1])
+  disp.push('[' + $arr[$arr.length-1] + ']')
   holder.push('')
-  arr[i] = '[' + arr[i] + ']'
+  $arr[i] = `[ #{$arr[i]} ]`
   letter = ''
-  dispStr = disp.to_s.gsub(/[,]/, '') 
-  puts '\n' + dispStr
+  dispStr = disp.to_s.gsub(/[,""]/, '') 
+  puts dispStr
   score = 0
-  while (disp.to_s != arr.to_s && $ctr > 0)
+  while (disp.to_s != $arr.to_s && $ctr > 0)
     loop do 
-    letter = input.question("Enter a letter:")
-    letter = letter.toUpperCase()
-    break if !(letter.length > 1 || letter === '' || Number(letter.charCodeAt(0)) > 90 || Number(letter.charCodeAt(0)) < 65)
+      puts "Enter a letter:"
+      letter = gets.chomp
+      letter = letter.upcase
+    break if !(letter.length > 1 || letter === '' || (letter[0]).ord > 90 || (letter[0]).ord < 65)
     end
-    if (holder.includes(letter))
-    splice(holder.indexOf(letter), 1, '[' + letter + ']')
-      dispStr = disp.to_s.gsub(/[,]/, '') 
-      holder.splice(holder.indexOf(letter), 1, '')
+    if (holder.include?(letter))
+      #puts `disp= #{disp}`
+      disp.slice!(holder.index(letter), 1, '[' + letter + ']')
+      dispStr = disp.to_s.gsub(/[,""]/, '') 
+      holder.slice!(holder.index(letter), 1, '')
       score += 10;
     else
-      ctr -= 1
-      puts `>>> #{ctr} attempts left... <<<`
+      $ctr -= 1
+      puts `>>> #{$ctr} attempts left... <<<`
     end
     puts dispStr
     puts `>>> Score: #{score} <<<`
     if ($ctr === 0)
       #console.log(`The correct word was: \n${words[rnd]}`)
-      puts "\n================="
+      puts "================="
       puts "  GAME OVER !!!"
       puts "================="
     else
-      puts "\n================="
+      puts "================="
       puts " GOOD GUESS !!!"
       puts "================="
     end
-
-puts `The correct word was: \n#{words[rnd]}\n`
-loop = ''
-while (loop.toUpperCase() != 'Y' && loop.toUpperCase() != 'N')
-  loop = input.question("New game? (Y/N) ")
-  if (loop.upcase === 'Y')
-    fun = true
-  else
-    fun = false
+    puts `The correct word was: \n#{words[rnd]}\n`
   end
-end
+  loop = ''
+  while (loop.upcase != 'Y' && loop.upcase != 'N')
+    loop = input.question("New game? (Y/N) ")
+    if (loop.upcase === 'Y')
+      $fun = true
+    else
+      $fun = false
+    end
+  end
 
-break if (!fun)
+break if (!$fun)
 end
